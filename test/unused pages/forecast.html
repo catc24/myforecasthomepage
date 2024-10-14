@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast Maker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .section {
+            margin-bottom: 20px;
+            flex: 1;
+            margin-right: 20px;
+        }
+        .section label {
+            display: block;
+            margin: 5px 0;
+        }
+        .section input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+<center>    
+<h1>Weather Forecast Maker</h1>
+
+<div class="container">
+    <div class="section" id="clouds">
+        <h2>Clouds</h2>
+        <label>Morning: 
+            <select id="clouds-morning">
+                <option value="1">Clear</option>
+                <option value="1">Sunny</option>
+                <option value="2">Partly Sunny</option>
+                <option value="2">Partly Cloudy</option>
+                <option value="3">Mostly Cloudy</option>
+                <option value="4">Cloudy</option>
+            </select>
+            <input type="checkbox" id="clouds-morning-increasing"> Increasing
+            <input type="checkbox" id="clouds-morning-decreasing"> Decreasing
+        </label>
+        <label>Afternoon: 
+            <select id="clouds-afternoon">
+                <option value="1">Clear</option>
+                <option value="1">Sunny</option>
+                <option value="2">Partly Sunny</option>
+                <option value="2">Partly Cloudy</option>
+                <option value="3">Mostly Cloudy</option>
+                <option value="4">Cloudy</option>
+            </select>
+            <input type="checkbox" id="clouds-afternoon-increasing"> Increasing
+            <input type="checkbox" id="clouds-afternoon-decreasing"> Decreasing
+        </label>
+        <label>Evening: 
+            <select id="clouds-evening">
+                <option value="1">Clear</option>
+                <option value="1">Sunny</option>
+                <option value="2">Partly Sunny</option>
+                <option value="2">Partly Cloudy</option>
+                <option value="3">Mostly Cloudy</option>
+                <option value="4">Cloudy</option>
+            </select>
+            <input type="checkbox" id="clouds-evening-increasing"> Increasing
+            <input type="checkbox" id="clouds-evening-decreasing"> Decreasing
+        </label>
+        <label>Night: 
+            <select id="clouds-night">
+                <option value="1">Clear</option>
+                <option value="1">Sunny</option>
+                <option value="2">Partly Sunny</option>
+                <option value="2">Partly Cloudy</option>
+                <option value="3">Mostly Cloudy</option>
+                <option value="4">Cloudy</option>
+            </select>
+            <input type="checkbox" id="clouds-night-increasing"> Increasing
+            <input type="checkbox" id="clouds-night-decreasing"> Decreasing
+        </label>
+    </div>
+
+    <div class="section" id="precipitation">
+        <h2>Precipitation</h2>
+        <label>Morning: 
+            <select id="precipitation-morning">
+                <option value="None">None</option>
+                <option value="Sprinkles">Sprinkles</option>
+                <option value="Rain">Rain</option>
+                <option value="Heavy Rain">Heavy Rain</option>
+                <option value="Thunderstorms">Thunderstorms</option>
+                <option value="Light Snow">Light Snow</option>
+                <option value="Snow">Snow</option>
+                <option value="Heavy Snow">Heavy Snow</option>
+                <option value="Blizzard">Blizzard</option>
+            </select>
+            <button type="button" onclick="togglePossible('morning')">Possible</button>
+        </label>
+        <label>Afternoon: 
+            <select id="precipitation-afternoon">
+                <option value="None">None</option>
+                <option value="Sprinkles">Sprinkles</option>
+                <option value="Rain">Rain</option>
+                <option value="Heavy Rain">Heavy Rain</option>
+                <option value="Thunderstorms">Thunderstorms</option>
+                <option value="Light Snow">Light Snow</option>
+                <option value="Snow">Snow</option>
+                <option value="Heavy Snow">Heavy Snow</option>
+                <option value="Blizzard">Blizzard</option>
+            </select>
+            <button type="button" onclick="togglePossible('afternoon')">Possible</button>
+        </label>
+        <label>Evening: 
+            <select id="precipitation-evening">
+                <option value="None">None</option>
+                <option value="Sprinkles">Sprinkles</option>
+                <option value="Rain">Rain</option>
+                <option value="Heavy Rain">Heavy Rain</option>
+                <option value="Thunderstorms">Thunderstorms</option>
+                <option value="Light Snow">Light Snow</option>
+                <option value="Snow">Snow</option>
+                <option value="Heavy Snow">Heavy Snow</option>
+                <option value="Blizzard">Blizzard</option>
+            </select>
+            <button type="button" onclick="togglePossible('evening')">Possible</button>
+        </label>
+        <label>Night: 
+            <select id="precipitation-night">
+                <option value="None">None</option>
+                <option value="Sprinkles">Sprinkles</option>
+                <option value="Rain">Rain</option>
+                <option value="Heavy Rain">Heavy Rain</option>
+                <option value="Thunderstorms">Thunderstorms</option>
+                <option value="Light Snow">Light Snow</option>
+                <option value="Snow">Snow</option>
+                <option value="Heavy Snow">Heavy Snow</option>
+                <option value="Blizzard">Blizzard</option>
+            </select>
+            <button type="button" onclick="togglePossible('night')">Possible</button>
+        </label>
+    </div>
+
+    <div class="section" id="winds">
+        <h2>Winds</h2>
+        <label>Speed: 
+            <input type="number" id="wind-speed" min="0" step="1" value="0"> mph
+        </label>
+        <label>Direction: 
+            <input type="text" id="wind-direction">
+        </label>
+        <label>Gusts: 
+            <input type="number" id="wind-gusts" min="0" step="1"> mph
+        </label>
+    </div>
+</div>
+
+<button onclick="generateForecast()">Generate Forecast</button>
+
+<h2>Generated Forecast</h2>
+<p id="forecast"></p>
+</center>
+<script>
+function togglePossible(time) {
+    const select = document.getElementById('precipitation-' + time);
+    const selectedOption = select.options[select.selectedIndex];
+    if (!selectedOption.value.startsWith('Possible ')) {
+        selectedOption.value = 'Possible ' + selectedOption.value;
+    } else {
+        selectedOption.value = selectedOption.value.replace('Possible ', '');
+    }
+}
+
+function generateForecast() {
+    const clouds = {
+        morning: parseInt(document.getElementById('clouds-morning').value),
+        afternoon: parseInt(document.getElementById('clouds-afternoon').value),
+        evening: parseInt(document.getElementById('clouds-evening').value),
+        night: parseInt(document.getElementById('clouds-night').value),
+        morningIncreasing: document.getElementById('clouds-morning-increasing').checked,
+        morningDecreasing: document.getElementById('clouds-morning-decreasing').checked,
+        afternoonIncreasing: document.getElementById('clouds-afternoon-increasing').checked,
+        afternoonDecreasing: document.getElementById('clouds-afternoon-decreasing').checked,
+        eveningIncreasing: document.getElementById('clouds-evening-increasing').checked,
+        eveningDecreasing: document.getElementById('clouds-evening-decreasing').checked,
+        nightIncreasing: document.getElementById('clouds-night-increasing').checked,
+        nightDecreasing: document.getElementById('clouds-night-decreasing').checked,
+    };
+
+    const precipitation = {
+        morning: document.getElementById('precipitation-morning').value,
+        afternoon: document.getElementById('precipitation-afternoon').value,
+        evening: document.getElementById('precipitation-evening').value,
+        night: document.getElementById('precipitation-night').value,
+    };
+
+    const windSpeed = document.getElementById('wind-speed').value;
+    const windDirection = document.getElementById('wind-direction').value;
+    const windGusts = document.getElementById('wind-gusts').value;
+
+    let forecast = '';
+
+    // Generate clouds forecast
+    forecast += generateCloudsForecast(clouds);
+
+    // Generate precipitation forecast
+    forecast += generatePrecipitationForecast(precipitation);
+
+    // Generate wind forecast
+    forecast += generateWindForecast(windSpeed, windDirection, windGusts);
+
+    document.getElementById('forecast').innerText = forecast.trim();
+}
+
+function generateCloudsForecast(clouds) {
+    let forecast = '';
+    
+    const times = ['morning', 'afternoon', 'evening', 'night'];
+    const descriptions = times.map(time => getCloudDescription(clouds[time]));
+    const firstCondition = clouds[times[0]];
+    const allSame = times.every(time => clouds[time] === firstCondition);
+    
+    const increasingCount = times.filter(time => clouds[time + 'Increasing']).length;
+    const decreasingCount = times.filter(time => clouds[time + 'Decreasing']).length;
+    
+    if (increasingCount === times.length) {
+        forecast = 'Increasing clouds all day.';
+    } else if (decreasingCount === times.length) {
+        forecast = 'Decreasing clouds all day.';
+    } else if (allSame && !increasingCount && !decreasingCount) {
+        forecast = descriptions[0] + ' all day.';
+    } else {
+        let pattern = '';
+        let lastCondition = descriptions[0];
+        let lastChange = 'none';
+
+        for (let i = 0; i < times.length; i++) {
+            let time = times[i];
+            let description = descriptions[i];
+
+            if (clouds[time + 'Increasing']) {
+                if (lastChange !== 'increasing') {
+                    if (lastChange !== 'none') {
+                        pattern += description + ' in the ' + time + ' with ';
+                    }
+                    pattern += 'increasing clouds ';
+                    lastChange = 'increasing';
+                }
+            } else if (clouds[time + 'Decreasing']) {
+                if (lastChange !== 'decreasing') {
+                    if (lastChange !== 'none') {
+                        pattern += description + ' in the ' + time + ' with ';
+                    }
+                    pattern += 'decreasing clouds ';
+                    lastChange = 'decreasing';
+                }
+            } else {
+                if (description !== lastCondition || i === 0) {
+                    pattern += description + ' in the ' + time + '. ';
+                    lastChange = 'none';
+                }
+                lastCondition = description;
+            }
+        }
+
+        forecast = pattern.trim();
+    }
+
+    return forecast;
+}
+
+function getCloudDescription(level) {
+    switch(level) {
+        case 1: return 'Clear';
+        case 2: return 'Partly Sunny';
+        case 3: return 'Partly Cloudy';
+        case 4: return 'Mostly Cloudy';
+        case 5: return 'Cloudy';
+        default: return '';
+    }
+}
+
+function generatePrecipitationForecast(precipitation) {
+    let forecast = '';
+
+    const times = ['morning', 'afternoon', 'evening', 'night'];
+    const firstCondition = precipitation[times[0]];
+
+    if (times.every(time => precipitation[time] === firstCondition) && firstCondition !== 'None') {
+        forecast += firstCondition.toLowerCase() + ' all day. ';
+    } else {
+        times.forEach((time, index) => {
+            if (precipitation[time] !== 'None' && precipitation[time] !== precipitation[times[index - 1]]) {
+                forecast += precipitation[time].toLowerCase() + ' in the ' + time + '. ';
+            }
+        });
+    }
+
+    return forecast;
+}
+
+function generateWindForecast(speed, direction, gusts) {
+    let forecast = '';
+
+    if (speed > 0) {
+        forecast += 'Winds ' + speed + ' mph';
+        if (direction) {
+            forecast += ' from the ' + direction;
+        }
+        if (gusts > 0) {
+            forecast += ' with gusts up to ' + gusts + ' mph';
+        }
+        forecast += '. ';
+    } else {
+        forecast += 'Calm winds. ';
+    }
+
+    return forecast;
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+</script>
+
+</body>
+</html>
