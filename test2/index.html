@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RainViewer Radar Map Example</title>
+    <!-- Leaflet CSS from CDN -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+    <!-- Custom page styling -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Simple control bar for navigating through radar frames -->
+    <div id="controls">
+      <button id="prevFrame" title="Previous frame">&lt;</button>
+      <button id="playPause" title="Play or stop animation">Play</button>
+      <button id="nextFrame" title="Next frame">&gt;</button>
+      <span id="frameTime">Loading…</span>
+    </div>
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Leaflet JS from CDN -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha512-nmmhBrH+s6erQyXCrAKYbkebtglXQfAcMoizpLZHvlVIKKdUdnKO9u2w+gEFoZ96VuGsS5yKZl7Nrsb+soXjkw=="
+      crossorigin=""
+    ></script>
+    <!-- Custom application logic -->
+    <script src="script.js"></script>
+  </body>
+</html>
